@@ -2,10 +2,13 @@ import nltk
 from nltk.corpus import stopwords
 from csv import DictReader
 import string
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('punkt_tab')
+
+#nltk.download('stopwords')
+#nltk.download('punkt')
+#nltk.download('punkt_tab')
 
 def importar_csv(caminho_arquivo):
     dados = []
@@ -38,11 +41,18 @@ def analise_frequencia(lista_texto):
     freq_distribuicao = nltk.FreqDist(palavras_filtradas)
 
     mais_frequentes = freq_distribuicao.most_common(50)
-    print(f"A palavra mais frequente foi '{mais_frequentes[0][0]}', sendo utilizada {mais_frequentes[0][1]} vezes!\nA segunda"
-          f" palavra mais frequente foi '{mais_frequentes[1][0]}', sendo utilizada {mais_frequentes[1][1]} vezes!\nA terceira"
-          f" palavra mais frequente foi '{mais_frequentes[2][0]}', sendo utilizada {mais_frequentes[2][1]} vezes!")
+    #print(f"A palavra mais frequente foi '{mais_frequentes[0][0]}', sendo utilizada {mais_frequentes[0][1]} vezes!\nA segunda"
+    #      f" palavra mais frequente foi '{mais_frequentes[1][0]}', sendo utilizada {mais_frequentes[1][1]} vezes!\nA terceira"
+    #      f" palavra mais frequente foi '{mais_frequentes[2][0]}', sendo utilizada {mais_frequentes[2][1]} vezes!")
 
+    most_freq_dict = dict(mais_frequentes)
+    print(mais_frequentes)
+    wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(most_freq_dict)
+    plt.figure(figsize=(15, 10))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()
 
 if __name__ == "__main__":
-    csv = importar_csv(r"C:\Users\Valter\PycharmProjects\Projects\work_codes\testes.csv")
+    csv = importar_csv(r"C:\Users\Valter\PycharmProjects\Projects\stats_playground\tweets_rony3.csv")
     analise_frequencia(csv)
