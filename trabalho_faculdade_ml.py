@@ -32,11 +32,11 @@ def pre_processamento_nltk(df):
 
 def pre_processamento_pandas(df, nome, ano):
     df['date'] = pd.to_datetime(df['date'])
-    df['year'] = df['date'].dt.year
+    df['ano'] = df['date'].dt.year
     df['insult'] = df['insult'].str.lower()
     df['insult'] = df['insult'].str.replace(r'[^\w\s]', '', regex=True)
     df['insult'] = df['insult'].str.replace('judgement', 'judgment', regex=True)
-    df_filtrado = df[(df['target'] == nome) & (df['year'] == ano)]
+    df_filtrado = df[(df['target'] == nome) & (df['ano'] == ano)]
     df_insultos = df_filtrado['insult'].value_counts().head(10)
     return df_insultos
 
@@ -71,7 +71,7 @@ def word_cloud(frequencia, titulo):
     plt.figure(figsize=(15, 8))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
-    plt.title(titulo, fontsize=28)
+    plt.title(titulo, fontsize=24)
     plt.show()
 
 
@@ -90,8 +90,8 @@ if __name__ == '__main__':
     grafico_barra(insultos_hillary, "Top 10 Insultos de Donald Trump a Hillary Clinton em 2016")
 
     insultos_biden = pre_processamento_pandas(df.copy(), "joe-biden", 2020)
-    word_cloud(insultos_biden, "Top 10 Insultos de Donald Trump a Joe Biden em 2016")
-    grafico_barra(insultos_biden, "Top 10 Insultos de Donald Trump a Joe Biden em 2016")
+    word_cloud(insultos_biden, "Top 10 Insultos de Donald Trump a Joe Biden em 2020")
+    grafico_barra(insultos_biden, "Top 10 Insultos de Donald Trump a Joe Biden em 2020")
 
 
 
